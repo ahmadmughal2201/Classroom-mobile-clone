@@ -1,3 +1,4 @@
+import 'package:classroom/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:classroom/components/courseCard.dart';
 import 'package:classroom/components/drawer.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: LoginPage(),
       debugShowCheckedModeBanner: false,
     );
   }

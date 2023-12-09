@@ -1,7 +1,8 @@
-import 'package:classroom/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:classroom/components/courseCard.dart';
 import 'package:classroom/components/drawer.dart';
+import 'package:classroom/components/bottomModal.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -14,11 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Classroom Clone',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: MyHomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -56,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -94,6 +94,22 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Show the bottom sheet when the button is pressed
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return ClassOptionsBottomSheet();
+              },
+            );          },
+          tooltip: 'Add',
+          backgroundColor: Colors.white,
+          // Set background color to white
+          foregroundColor: Colors.blue,
+          // Set icon color to blue
+          child: Icon(Icons.add),
         ),
       ),
     );

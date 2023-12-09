@@ -72,7 +72,7 @@ class _CourseDetailsPageState extends State<CourseDetailsPage> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
-                  height: 200,
+                  height: 150,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(

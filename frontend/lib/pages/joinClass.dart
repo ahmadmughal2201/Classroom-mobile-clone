@@ -1,4 +1,6 @@
+import 'package:classroom/utils/shared_prefrences_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class JoinClassScreen extends StatelessWidget {
   const JoinClassScreen({Key? key}) : super(key: key);
@@ -26,8 +28,28 @@ class JoinClassScreen extends StatelessWidget {
                 // Add the circular profile picture here
                 backgroundImage: AssetImage("assets/images/dp.png"),
               ),
-              title: Text('User Name'),
-              subtitle: Text('user@gmail.com'),
+              title: FutureBuilder<String>(
+                future: SharedPrefrencesUtils.getUserName(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data!);
+                  } else {
+                    return Text(
+                        'Loading...'); // You can use a loading indicator here
+                  }
+                },
+              ),
+              subtitle: FutureBuilder<String>(
+                future: SharedPrefrencesUtils.getUserEmail(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data!);
+                  } else {
+                    return Text(
+                        'Loading...'); // You can use a loading indicator here
+                  }
+                },
+              ),
             ),
             Divider(),
             SizedBox(height: 10),
@@ -45,12 +67,9 @@ class JoinClassScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-
             ElevatedButton(
               onPressed: () {
-
                 // Add your Join class logic here
-
               },
               child: Container(
                 width: double.infinity,
@@ -68,7 +87,6 @@ class JoinClassScreen extends StatelessWidget {
                 ),
               ),
             ),
-
           ],
         ),
       ),

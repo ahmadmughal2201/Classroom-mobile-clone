@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3000; // Default to 3000 if PORT is not specifi
 
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoute');
+const classRoutes = require('./routes/classRoute');
 
 const app = express();
 app.use(cors());
@@ -14,6 +15,7 @@ app.use(bodyParser.json()); // Corrected typo in bodyParser
 
 // API starter calls
 app.use('/api', userRoutes);
+app.use('/class', classRoutes);
 
 app.get('/', (req, res) => {
     console.log(req);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:classroom/utils/snackbar_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -37,9 +38,26 @@ class _LoginScreenState extends State<LoginPage> {
           headers: {'Content-Type': 'application/json'}, body: body);
 
       if (response.statusCode == 200) {
-        // Registration successful, show success SnackBar
-        SnackBarUtils.showSnackBar(context, 'Login successful', Colors.green);
-        // Home Page
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        String userEmail = responseBody['email'];
+        String userName = responseBody['name'];
+        WidgetsFlutterBinding.ensureInitialized();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('userEmail', userEmail);
+        prefs.setString('userName', userName);
+
+        if (prefs.containsKey('userEmail')) {
+          SnackBarUtils.showSnackBar(context, 'Login successful', Colors.green);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MyHomePage(), // Use an empty string if userEmail is null
+            ),
+          );
+        } else {
+          SnackBarUtils.showSnackBar(
+              context, 'Login failed : unable to save user email', Colors.red);
+        }
       } else {
         // Registration failed, show error SnackBar with the message from the backend
         Map<String, dynamic> responseBody = jsonDecode(response.body);
@@ -104,12 +122,8 @@ class _LoginScreenState extends State<LoginPage> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  _loginUser;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyHomePage()),
-                  );
+                onPressed: ()  {
+                  _loginUser();
                 },
                 child: Container(
                   width: double.infinity,

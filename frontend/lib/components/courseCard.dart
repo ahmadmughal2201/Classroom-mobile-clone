@@ -4,14 +4,12 @@ import 'package:classroom/pages/courseDetail.dart';
 class CourseCard extends StatelessWidget {
   final String backgroundImage;
   final String courseTitle;
-  final String sectionName;
   final String teacherName;
 
   const CourseCard({
     Key? key,
     required this.backgroundImage,
     required this.courseTitle,
-    required this.sectionName,
     required this.teacherName,
   }) : super(key: key);
 
@@ -24,7 +22,7 @@ class CourseCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => CourseDetailsPage(
               courseName: courseTitle,
-              sectionName: sectionName,
+              teacherName: teacherName,
               backgroundImageUrl: backgroundImage,
             ),
           ),
@@ -59,7 +57,7 @@ class CourseCard extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    sectionName,
+                    teacherName,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,

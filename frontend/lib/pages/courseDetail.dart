@@ -5,12 +5,12 @@ import 'package:classroom/components/workTile.dart';
 
 class CourseDetailsPage extends StatefulWidget {
   final String courseName;
-  final String sectionName;
+  final String teacherName;
   final String backgroundImageUrl;
 
   CourseDetailsPage({
     required this.courseName,
-    required this.sectionName,
+    required this.teacherName,
     required this.backgroundImageUrl,
   });
 
@@ -97,7 +97,7 @@ class _CourseDetailsPageState extends State<CourseDetailsPage> {
                             ),
                           ),
                           Text(
-                            widget.sectionName,
+                            widget.teacherName,
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,

@@ -1,34 +1,49 @@
-const userModel = require("../models/userModel");
+const classModel = require("../models/classModel");
+const userModel = require("../models/userModel")
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+/*
+name: { type: String, required: true, trim: true },
+  code: { type: String, required: true, unique: true, trim: true },
+  description: { type: String, },
+  teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, },
+  students: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User', // Assuming you have a User model for students
+    },
+  ],
+*/
 
 
-async function registerUser(req, res) {
+async function createClass(req, res) {
     try {
-        // In case if any of the field is missing
-        if (!req.body.username || !req.body.email || !req.body.password) {
-            return res
-                .status(400)
-                .json({ message: "Please provide all the required fields" });
+        console.log(req.body); //For checking response send in console
+        const { name, code, teacherEmail } = req.body;
+        if (!name  || !code || !teacherEmail) {
+            return res.status(400).json({ message: "Invalid or empty request body" });
         }
         else {
-            console.log(req.body); //For checking response send in console
-            const { username, email, password } = req.body;
             // Check if the user already exists
-            const user = await userModel.findOne({ email: email });
-            if (user) {
-                return res.status(409).json({ message: "Email already being used!" });
+            const teacherId = await userModel.findOne({ email: teacherEmail });
+            const classData= await classModel.findOne({ name: name });
+            console.log(teacherId);
+            if (!teacherId) {
+                return res.status(409).json({ message: "You are not authorized to create class" });
+            }
+            else if(classData){
+                return res.status(409).json({ message: "Class already exists with this try another name" });
             }
             else {
-                bcrypt.hash(password, 10)
+                bcrypt.hash(code, 10)
                     .then((hash) => {
-                        userModel.create({ username, email, password: hash })
-                            .then(res.status(200).json({ message: "User created successfully!" }))
+                        classModel.create({ name, code: hash, teacher: teacherId })
+                            .then(res.status(200).json({ message: "Class created successfully!" }))
                             .catch((err) => {
                                 console.log(err);
                                 return res.status(500).json({ message: err });
                             });
                     });
+
             }
         }
     } catch (error) {
@@ -36,7 +51,7 @@ async function registerUser(req, res) {
         return res.status(500).json({ message: error });
     }
 }
-async function loginUser(req, res) {
+async function getClassesById(req, res) {
     console.log(req.body);
     const { email, password } = req.body;
 
@@ -53,7 +68,7 @@ async function loginUser(req, res) {
                     }
                     else if (result == true) {
                         var token = GenerateToken(user);
-                   
+
                         console.log("Logged In successfully");
                         return res.status(200).json({
                             message: "User logged in successfully",
@@ -86,6 +101,6 @@ function GenerateToken(user) {
 }
 
 module.exports = {
-    registerUser,
-    loginUser,
+    createClass,
+    getClassesById,
 };

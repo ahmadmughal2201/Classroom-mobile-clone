@@ -1,3 +1,4 @@
+import 'package:classroom/main.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -26,7 +27,12 @@ class MyDrawer extends StatelessWidget {
             leading: Icon(Icons.home_outlined),
             title: Text('Classrooms'),
             onTap: () {
-              // Add your custom action here
+              Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MyHomePage(), // Use an empty string if userEmail is null
+            ),
+          );
             },
           ),
           ListTile(

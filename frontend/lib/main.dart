@@ -1,10 +1,11 @@
+import 'package:classroom/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:classroom/components/courseCard.dart';
 import 'package:classroom/components/drawer.dart';
 import 'package:classroom/components/bottomModal.dart';
 
-
 void main() {
+   
   runApp(const MyApp());
 }
 
@@ -19,15 +20,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: const LoginPage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage();
+  
 
+  const MyHomePage({super.key});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -71,9 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           title: Text('Classroom'),
-          actions: <Widget>[
+          actions: const <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: CircleAvatar(
                 radius: 20,
                 backgroundImage: AssetImage("assets/images/dp.png"),
@@ -89,7 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
               return CourseCard(
                 backgroundImage: courseData[index]['backgroundImage']!,
                 courseTitle: courseData[index]['courseTitle']!,
-                sectionName: courseData[index]['sectionName']!,
                 teacherName: courseData[index]['teacherName']!,
               );
             },
@@ -103,7 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (BuildContext context) {
                 return ClassOptionsBottomSheet();
               },
-            );          },
+            );
+          },
           tooltip: 'Add',
           backgroundColor: Colors.white,
           // Set background color to white

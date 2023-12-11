@@ -1,4 +1,5 @@
 import 'package:classroom/main.dart';
+import 'package:classroom/pages/home.dart';
 import 'package:classroom/pages/register.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

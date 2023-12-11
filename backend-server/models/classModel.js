@@ -7,8 +7,8 @@ const classSchema = new mongoose.Schema({
   students: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // Assuming you have a User model for students
-    },
+      ref: 'User',
+    }
   ],
   // Add other fields as needed
 }, { timestamps: true });

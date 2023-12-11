@@ -60,10 +60,10 @@ async function getAllClassesForUser(req, res) {
             const userId = user._id;
 
             // Find classes where the user is the teacher
-            const teacherClasses = await classModel.find({ teacher: userId }).populate('teacher', 'username').exec();
+            const teacherClasses = await classModel.find({teacher:userId}).populate('teacher', 'username');
 
             // Find classes where the user is a student
-            const studentClasses = await classModel.find({ students: userId }).populate('students', 'username').exec();
+            const studentClasses = await classModel.find({students:userId}).populate('teacher', 'username').populate('students', 'username');
 
             // Combine the arrays of classes
             const allClasses = [...teacherClasses, ...studentClasses];
@@ -83,7 +83,7 @@ async function enrollStudent(req, res) {
         const { classCode, userEmail } = req.body;
         console.log(req.body);
         // Find the class based on the provided code
-        const targetClass = await classModel.findOne({ code: classCode }).populate('teacher', 'username');
+        const targetClass = await classModel.findOne({ code: classCode }).populate('teacher', 'username').populate('students', 'username');
         const user = await userModel.findOne({ email: userEmail });
 
         if (!targetClass) {
